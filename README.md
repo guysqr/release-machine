@@ -1,4 +1,4 @@
-# step-functions-test
+# Release Machine
 
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders:
 
@@ -6,7 +6,7 @@ This project contains source code and supporting files for a serverless applicat
 - statemachines - Definition for the state machine that orchestrates the stock trading workflow.
 - template.yaml - A template that defines the application's AWS resources.
 
-This application creates a mock stock trading workflow which runs on a pre-defined schedule (note that the schedule is disabled by default to avoid incurring charges). It demonstrates the power of Step Functions to orchestrate Lambda functions and other AWS resources to form complex and robust workflows, coupled with event-driven development using Amazon EventBridge.
+This application creates a software release workflow which is triggered by a `release-manifest.json` file being dropped in an S3 bucket.
 
 AWS Step Functions lets you coordinate multiple AWS services into serverless workflows so you can build and update apps quickly. Using Step Functions, you can design and run workflows that stitch together services, such as AWS Lambda, AWS Fargate, and Amazon SageMaker, into feature-rich applications.
 
@@ -21,7 +21,7 @@ If you prefer to use an integrated development environment (IDE) to build and te
 
 The AWS Toolkit for VS Code includes full support for state machine visualization, enabling you to visualize your state machine in real time as you build. The AWS Toolkit for VS Code includes a language server for Amazon States Language, which lints your state machine definition to highlight common errors, provides auto-complete support, and code snippets for each state, enabling you to build state machines faster.
 
-## Deploy the sample application
+## Deploy the application
 
 The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda.
 
@@ -34,8 +34,8 @@ To use the SAM CLI, you need the following tools:
 To build and deploy your application for the first time, run the following in your shell:
 
 ```bash
-sam build
-sam deploy --guided
+$ sam build
+$ sam deploy --guided
 ```
 
 The first command will build the source of your application. The second command will package and deploy your application to AWS, with a series of prompts:
@@ -53,7 +53,7 @@ You can find your State Machine ARN in the output values displayed after deploym
 Build the Lambda functions in your application with the `sam build --use-container` command.
 
 ```bash
-step-functions-test$ sam build
+$ sam build
 ```
 
 The SAM CLI installs dependencies defined in `functions/*/package.json`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
@@ -69,7 +69,7 @@ To simplify troubleshooting, SAM CLI has a command called `sam logs`. `sam logs`
 `NOTE`: This command works for all AWS Lambda functions; not just the ones you deploy using SAM.
 
 ```bash
-step-functions-test$ sam logs -n CheckManifestFunction --stack-name step-functions-test --tail
+$ sam logs -n CheckManifestFunction --stack-name release-machine --tail
 ```
 
 You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
@@ -79,9 +79,9 @@ You can find more information and examples about filtering Lambda function logs 
 Tests are defined in the `functions/*/tests` folder in this project. Use NPM to install the [Mocha test framework](https://mochajs.org/) and run unit tests.
 
 ```bash
-step-functions-test$ cd functions/stock-checker
-stock-checker$ npm install
-stock-checker$ npm run test
+$ cd functions/check-manifest
+check-manifest$ npm install
+check-manifest$ npm run test
 ```
 
 ## Cleanup
@@ -89,7 +89,7 @@ stock-checker$ npm run test
 To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
 
 ```bash
-aws cloudformation delete-stack --stack-name step-functions-test
+aws cloudformation delete-stack --stack-name release-manager
 ```
 
 ## Resources

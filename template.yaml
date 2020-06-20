@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Release Machine
+
+  SAM Template for release machine
+
+Resources:
+  ReleaseStateMachine:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: statemachine/release_manager.asl.json
+      DefinitionSubstitutions:
+        CheckManifestFunctionArn: !GetAtt CheckManifestFunction.Arn
+        RunPipelineFunctionArn: !GetAtt RunPipelineFunction.Arn
+        DDBPutItem: !Sub arn:${AWS::Partition}:states:::dynamodb:putItem
+        DDBTable: !Ref TransactionTable
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+        - LambdaInvokePolicy:
+            FunctionName: !Ref CheckManifestFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref RunPipelineFunction
+        - DynamoDBWritePolicy:
+            TableName: !Ref TransactionTable
+
+  CheckManifestFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/check-manifest/
+      Handler: app.lambdaHandler
+      Runtime: nodejs12.x
+
+  RunPipelineFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/pipeline-runner/
+      Handler: app.lambdaHandler
+      Runtime: nodejs12.x
+
+  TransactionTable:
+    Type: AWS::Serverless::SimpleTable # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
+    Properties:
+      PrimaryKey:
+        Name: ExecutionId
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+Outputs:
+  # Find out more about other implicit resources you can reference within SAM
+  # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-generated-resources.html
+  ReleaseStateMachineArn:
+    Description: "Release state machine ARN"
+    Value: !Ref ReleaseStateMachine
+  ReleaseStateMachineRole:
+    Description: "IAM Role created for Release state machine based on the specified SAM Policy Templates"
+    Value: !GetAtt ReleaseStateMachineRole.Arn

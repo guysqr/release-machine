@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Release Machine
+
+  SAM Template for release machine
+
+  '
+Resources:
+  ReleaseStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      DefinitionUri: ../../statemachine/release_manager.asl.json
+      DefinitionSubstitutions:
+        CheckManifestFunctionArn:
+          Fn::GetAtt:
+          - CheckManifestFunction
+          - Arn
+        RunPipelineFunctionArn:
+          Fn::GetAtt:
+          - RunPipelineFunction
+          - Arn
+        DDBPutItem:
+          Fn::Sub: arn:${AWS::Partition}:states:::dynamodb:putItem
+        DDBTable:
+          Ref: TransactionTable
+      Policies:
+      - LambdaInvokePolicy:
+          FunctionName:
+            Ref: CheckManifestFunction
+      - LambdaInvokePolicy:
+          FunctionName:
+            Ref: RunPipelineFunction
+      - DynamoDBWritePolicy:
+          TableName:
+            Ref: TransactionTable
+  CheckManifestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: CheckManifestFunction
+      Handler: app.lambdaHandler
+      Runtime: nodejs12.x
+  RunPipelineFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: RunPipelineFunction
+      Handler: app.lambdaHandler
+      Runtime: nodejs12.x
+  TransactionTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: ExecutionId
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+Outputs:
+  ReleaseStateMachineArn:
+    Description: Release state machine ARN
+    Value:
+      Ref: ReleaseStateMachine
+  ReleaseStateMachineRole:
+    Description: IAM Role created for Release state machine based on the specified
+      SAM Policy Templates
+    Value:
+      Fn::GetAtt:
+      - ReleaseStateMachineRole
+      - Arn

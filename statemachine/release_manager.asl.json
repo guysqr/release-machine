@@ -1,0 +1,97 @@
+{
+    "Comment": "A state machine that does multiple pipeling releases.",
+    "StartAt": "Read Manifest",
+    "States": {
+        "Read Manifest": {
+            "Type": "Task",
+            "Resource": "${CheckManifestFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 15,
+                    "MaxAttempts": 5,
+                    "BackoffRate": 1.5
+                }
+            ],
+            "Next": "Manifest Valid?"
+        },
+        "Manifest Valid?": {
+            "Type": "Choice",
+            "Choices": [
+                {
+                    "Variable": "$.steps",
+                    "NumericGreaterThan": 0,
+                    "Next": "Run Pipeline"
+                }
+            ],
+            "Default": "Nothing To Do"
+        },
+        "Nothing To Do": {
+            "Type": "Task",
+            "Resource": "${ReleaseCompleteFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1
+                }
+            ],
+            "Next": "Record Release"
+        },
+        "Run Pipeline": {
+            "Type": "Map",
+            "InputPath": "$.manifest",
+            "ItemsPath": "$.pipelines",
+            "MaxConcurrency": 20,
+            "ResultPath": "$.manifest.pipelines",
+            "Parameters": {
+                "pipeline.$": "$$.Map.Item.Value"
+            },
+            "Iterator": {
+                "StartAt": "Run Pipeline",
+                "States": {
+                    "Run Pipeline": {
+                        "Type": "Task",
+                        "Resource": "${RunPipelineFunctionArn}",
+                        "End": true
+                    }
+                }
+            },
+            "Next": "Record Release"
+        },
+        "Record Release": {
+            "Type": "Task",
+            "Resource": "${DDBPutItem}",
+            "Parameters": {
+                "TableName": "${DDBTable}",
+                "Item": {
+                    "ExecutionId": {
+                        "S.$": "$.execution"
+                    },
+                    "State": {
+                        "S.$": "$.state"
+                    },
+                    "Timestamp": {
+                        "S.$": "$.timestamp"
+                    }
+                }
+            },
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 20,
+                    "MaxAttempts": 5,
+                    "BackoffRate": 10
+                }
+            ],
+            "End": true
+        }
+    }
+}

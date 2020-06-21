@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   Release Machine
@@ -22,6 +22,32 @@ Resources:
             FunctionName: !Ref RunPipelineFunction
         - DynamoDBWritePolicy:
             TableName: !Ref TransactionTable
+      Events:
+        ReleaseTrigger:
+          Type: CloudWatchEvent
+          Properties:
+            EventBusName: default
+            Pattern:
+              source:
+                - aws.s3
+              detail-type:
+                - AWS API Call via CloudTrail
+              detail:
+                eventSource:
+                  - s3.amazonaws.com
+                eventName:
+                  - PutObject
+                requestParameters:
+                  bucketName:
+                    - !Ref ReleaseBucket
+  ReleaseBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: 'CreatedBy'
+          Value: 'release-manager'
 
   CheckManifestFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
@@ -51,8 +77,11 @@ Outputs:
   # Find out more about other implicit resources you can reference within SAM
   # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-generated-resources.html
   ReleaseStateMachineArn:
-    Description: "Release state machine ARN"
+    Description: 'Release state machine ARN'
     Value: !Ref ReleaseStateMachine
   ReleaseStateMachineRole:
-    Description: "IAM Role created for Release state machine based on the specified SAM Policy Templates"
+    Description: 'IAM Role created for Release state machine based on the specified SAM Policy Templates'
     Value: !GetAtt ReleaseStateMachineRole.Arn
+  ReleaseBucketName:
+    Description: 'Name of the bucket the release manifest should be dropped into'
+    Value: !Ref ReleaseBucket

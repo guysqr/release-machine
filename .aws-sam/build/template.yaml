@@ -33,6 +33,32 @@ Resources:
       - DynamoDBWritePolicy:
           TableName:
             Ref: TransactionTable
+      Events:
+        ReleaseTrigger:
+          Type: CloudWatchEvent
+          Properties:
+            EventBusName: default
+            Pattern:
+              source:
+              - aws.s3
+              detail-type:
+              - AWS API Call via CloudTrail
+              detail:
+                eventSource:
+                - s3.amazonaws.com
+                eventName:
+                - PutObject
+                requestParameters:
+                  bucketName:
+                  - Ref: ReleaseBucket
+  ReleaseBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+      - Key: CreatedBy
+        Value: release-manager
   CheckManifestFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -66,3 +92,7 @@ Outputs:
       Fn::GetAtt:
       - ReleaseStateMachineRole
       - Arn
+  ReleaseBucketName:
+    Description: Name of the bucket the release manifest should be dropped into
+    Value:
+      Ref: ReleaseBucket

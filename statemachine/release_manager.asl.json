@@ -23,27 +23,16 @@
                 {
                     "Variable": "$.steps",
                     "NumericGreaterThan": 0,
-                    "Next": "Run Pipeline"
+                    "Next": "Run Pipelines"
                 }
             ],
             "Default": "Nothing To Do"
         },
         "Nothing To Do": {
-            "Type": "Task",
-            "Resource": "${ReleaseCompleteFunctionArn}",
-            "Retry": [
-                {
-                    "ErrorEquals": [
-                        "States.TaskFailed"
-                    ],
-                    "IntervalSeconds": 2,
-                    "MaxAttempts": 3,
-                    "BackoffRate": 1
-                }
-            ],
-            "Next": "Record Release"
+            "Type": "Pass",
+            "End": true
         },
-        "Run Pipeline": {
+        "Run Pipelines": {
             "Type": "Map",
             "InputPath": "$.manifest",
             "ItemsPath": "$.pipelines",

@@ -6,7 +6,7 @@ This project contains source code and supporting files for a serverless applicat
 - statemachines - Definition for the state machine that orchestrates the stock trading workflow.
 - template.yaml - A template that defines the application's AWS resources.
 
-This application creates a software release workflow which is triggered by a `release-manifest.json` file being dropped in an S3 bucket.
+This application creates a software release workflow which is triggered by a `release-manifest.json` file being dropped in an S3 bucket. The release process is managed by a Step Functions state machine.
 
 AWS Step Functions lets you coordinate multiple AWS services into serverless workflows so you can build and update apps quickly. Using Step Functions, you can design and run workflows that stitch together services, such as AWS Lambda, AWS Fargate, and Amazon SageMaker, into feature-rich applications.
 

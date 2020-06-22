@@ -1,3 +1,3 @@
 {
-    "pipelines": ["pipeline-for-stepfunctions-pipeline-repo-1", "pipeline-for-stepfunctions-pipeline-repo-2", "pipeline-for-stepfunctions-pipeline-repo-5"]
+  "pipelines": ["pipeline-for-stepfunctions-pipeline-repo-3", "pipeline-for-stepfunctions-pipeline-repo-4"]
 }

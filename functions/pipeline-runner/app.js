@@ -14,7 +14,7 @@ var codepipeline = new AWS.CodePipeline();
 exports.lambdaHandler = async (event, context) => {
     console.log(event);
     var params = {
-        name: 'test',
+        name: event.pipeline,
     };
     try {
         var execution = await codepipeline.startPipelineExecution(params).promise();

@@ -55,13 +55,27 @@ Resources:
       CodeUri: functions/check-manifest/
       Handler: app.lambdaHandler
       Runtime: nodejs12.x
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Ref ReleaseBucket
 
   RunPipelineFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: functions/pipeline-runner/
       Handler: app.lambdaHandler
-      Runtime: nodejs12.x
+      Runtime: nodejs10.x
+      Policies:
+        - Statement:
+            - Sid: CodePipelinePermissions
+              Effect: Allow
+              Action:
+                - codepipeline:StartPipelineExecution
+                - codepipeline:StopPipelineExecution
+                - codepipeline:GetPipelineState
+                - codepipeline:GetPipelineExecution
+                - codepipeline:ListPipelineExecutions
+              Resource: '*'
 
   TransactionTable:
     Type: AWS::Serverless::SimpleTable # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html

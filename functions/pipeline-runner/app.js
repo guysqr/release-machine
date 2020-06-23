@@ -1,26 +1,53 @@
 var AWS = require('aws-sdk');
+AWS.config.update({
+  region: 'ap-southeast-2',
+});
+
 var codepipeline = new AWS.CodePipeline();
+var ddb = new AWS.DynamoDB.DocumentClient({
+  apiVersion: '2012-08-10',
+});
+
 /**
- * Sample Lambda function which mocks the operation of buying a random number of shares for a stock.
- * For demonstration purposes, this Lambda function does not actually perform any  actual transactions. It simply returns a mocked result.
- * 
+ *
  * @param {Object} event - Input event to the Lambda function
  * @param {Object} context - Lambda Context runtime methods and attributes
  *
- * @returns {Object} object - Object containing details of the stock buying transaction
- * 
  */
 
 exports.lambdaHandler = async (event, context) => {
-    console.log(event);
-    var params = {
-        name: event.pipeline,
-    };
-    try {
-        var execution = await codepipeline.startPipelineExecution(params).promise();
-        console.log(execution); // successful response
-        return execution;
-    } catch (error) {
-        console.log(error);
+  console.log(event);
+  console.log(context);
+  var params = {
+    name: event.pipeline,
+  };
+  try {
+    var execution = await codepipeline.startPipelineExecution(params).promise();
+    console.log(execution); // successful response
+    if (execution.hasOwnProperty('pipelineExecutionId')) {
+      params = {
+        TableName: process.env.executionsTable,
+        Item: {
+          ExecutionId: execution.pipelineExecutionId,
+          ReleaseId: event.releaseId + '',
+          Pipeline: event.pipeline,
+          Timestamp: new Date().getTime() + '',
+          Status: 'Started',
+        },
+      };
+      console.log(params);
+      // Add this execution to the table
+      try {
+        let newRecord = await ddb.put(params).promise();
+        console.log(newRecord);
+      } catch (e) {
+        console.log(e);
+      }
+      return execution;
+    } else {
+      console.log('Failed to start pipeline ' + event.pipeline);
     }
+  } catch (error) {
+    console.log(error);
+  }
 };

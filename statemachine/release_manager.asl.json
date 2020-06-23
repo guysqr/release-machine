@@ -39,7 +39,8 @@
             "MaxConcurrency": 20,
             "ResultPath": "$.manifest.pipelines",
             "Parameters": {
-                "pipeline.$": "$$.Map.Item.Value"
+                "pipeline.$": "$$.Map.Item.Value",
+                "releaseId.$": "$.releaseId"
             },
             "Iterator": {
                 "StartAt": "Run Pipeline",
@@ -51,7 +52,23 @@
                     }
                 }
             },
-            "Next": "Record Release"
+            "Next": "Check Pipelines"
+        },
+        "Check Pipelines": {
+            "Type": "Task",
+            "Resource": "${CheckPipelinesFunctionArn}",
+            "Next": "Pipelines Done?"
+        },
+        "Pipelines Done?": {
+            "Type": "Choice",
+            "Choices": [
+                {
+                    "Variable": "$.steps",
+                    "NumericGreaterThan": 0,
+                    "Next": "Record Release"
+                }
+            ],
+            "Default": "Check Pipelines"
         },
         "Record Release": {
             "Type": "Task",

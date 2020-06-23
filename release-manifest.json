@@ -1,3 +1,4 @@
 {
-  "pipelines": ["pipeline-for-stepfunctions-pipeline-repo-3", "pipeline-for-stepfunctions-pipeline-repo-4"]
+  "releaseId": 5.15,
+  "pipelines": ["pipeline-for-stepfunctions-pipeline-repo-3"]
 }

@@ -1,7 +1,7 @@
 {
-  "name": "stock_checker",
+  "name": "pipeline-runner",
   "version": "1.0.0",
-  "description": "Mock stock checker for NodeJS",
+  "description": "Pipeline runner for NodeJS",
   "main": "app.js",
   "repository": "TODO",
   "author": "SAM CLI",

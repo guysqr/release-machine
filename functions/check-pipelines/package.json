@@ -1,7 +1,7 @@
 {
-  "name": "check-manifest",
+  "name": "check-pipelines",
   "version": "1.0.0",
-  "description": "Checks manifest",
+  "description": "Checks pipeline execution status",
   "main": "app.js",
   "repository": "TODO",
   "author": "SAM CLI",

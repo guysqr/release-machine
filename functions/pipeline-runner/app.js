@@ -23,7 +23,7 @@ exports.lambdaHandler = async (event, context) => {
   };
   try {
     var execution = await codepipeline.startPipelineExecution(params).promise();
-    console.log(execution); // successful response
+    console.log(execution);
     if (execution.hasOwnProperty('pipelineExecutionId')) {
       params = {
         TableName: process.env.executionsTable,
@@ -31,12 +31,10 @@ exports.lambdaHandler = async (event, context) => {
           ExecutionId: execution.pipelineExecutionId,
           ReleaseId: event.releaseId + '',
           Pipeline: event.pipeline,
-          Timestamp: new Date().getTime() + '',
-          Status: 'Started',
+          Started: new Date().getTime() + '',
         },
       };
       console.log(params);
-      // Add this execution to the table
       try {
         let newRecord = await ddb.put(params).promise();
         console.log(newRecord);

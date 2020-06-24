@@ -15,6 +15,7 @@ Resources:
         RunPipelineFunctionArn: !GetAtt RunPipelineFunction.Arn
         CheckPipelinesFunctionArn: !GetAtt CheckPipelinesFunction.Arn
         DDBPutItem: !Sub arn:${AWS::Partition}:states:::dynamodb:putItem
+        DDBUpdatetem: !Sub arn:${AWS::Partition}:states:::dynamodb:updateItem
         DDBTable: !Ref ReleasesTable
       Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
         - LambdaInvokePolicy:

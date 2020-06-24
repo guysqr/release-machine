@@ -52,6 +52,11 @@
                     }
                 }
             },
+            "Next": "Wait for Pipelines"
+        },
+        "Wait for Pipelines": {
+            "Type": "Wait",
+            "Seconds": 30,
             "Next": "Check Pipelines"
         },
         "Check Pipelines": {
@@ -63,29 +68,41 @@
             "Type": "Choice",
             "Choices": [
                 {
-                    "Variable": "$.steps",
-                    "NumericGreaterThan": 0,
+                    "Variable": "$.releaseStatus",
+                    "StringEquals": "IN_PROGRESS",
+                    "Next": "Wait for Pipelines"
+                },
+                {
+                    "Variable": "$.releaseStatus",
+                    "StringEquals": "FAILED",
+                    "Next": "Failed"
+                },
+                {
+                    "Variable": "$.releaseStatus",
+                    "StringEquals": "COMPLETED",
                     "Next": "Record Release"
                 }
             ],
-            "Default": "Check Pipelines"
+            "Default": "Wait for Pipelines"
         },
         "Record Release": {
             "Type": "Task",
-            "Resource": "${DDBPutItem}",
+            "Resource": "${DDBUpdatetem}",
             "Parameters": {
                 "TableName": "${DDBTable}",
-                "Item": {
-                    "ExecutionId": {
-                        "S.$": "$.execution"
-                    },
-                    "State": {
-                        "S.$": "$.state"
-                    },
-                    "Timestamp": {
-                        "S.$": "$.timestamp"
+                "Key": {
+                    "ReleaseId": {
+                        "S.$": "$.releaseId"
                     }
-                }
+                },
+                "UpdateExpression": "SET #new = :ts",
+                "ExpressionAttributeValues": {
+                    ":ts.$": "$.releaseTimestamp"
+                },
+                "ExpressionAttributeNames": {
+                    "#new.$": "$.releaseStatus"
+                },
+                "ReturnValues": "UPDATED_NEW"
             },
             "Retry": [
                 {
@@ -97,7 +114,13 @@
                     "BackoffRate": 10
                 }
             ],
-            "End": true
+            "Next": "Succeeded"
+        },
+        "Succeeded": {
+            "Type": "Succeed"
+        },
+        "Failed": {
+            "Type": "Fail"
         }
     }
 }

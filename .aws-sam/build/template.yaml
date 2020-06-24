@@ -25,6 +25,8 @@ Resources:
           - Arn
         DDBPutItem:
           Fn::Sub: arn:${AWS::Partition}:states:::dynamodb:putItem
+        DDBUpdatetem:
+          Fn::Sub: arn:${AWS::Partition}:states:::dynamodb:updateItem
         DDBTable:
           Ref: ReleasesTable
       Policies:

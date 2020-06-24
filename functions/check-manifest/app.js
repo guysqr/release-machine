@@ -1,5 +1,7 @@
 var AWS = require('aws-sdk');
-AWS.config.update({ region: 'ap-southeast-2' });
+AWS.config.update({
+  region: 'ap-southeast-2'
+});
 
 var s3 = new AWS.S3();
 var ddb = new AWS.DynamoDB.DocumentClient({
@@ -55,8 +57,7 @@ exports.lambdaHandler = async (event, context, callback) => {
           TableName: process.env.releasesTable,
           Item: {
             ReleaseId: manifestObj.releaseId + '',
-            Timestamp: new Date().getTime() + '',
-            Status: 'Requested',
+            Requested: new Date().getTime() + ''
           },
         };
         console.log(params);

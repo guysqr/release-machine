@@ -1,9 +1,17 @@
 # Release Machine
 
+This project is a proof of concept for a Step Functions state machine that can be used to orchestrate simultaneous deployments from multiple pipelines.
+
+## Prerequisites
+
+This project assumes you have an existing set of CodePipeline deployment pipelines already set up. The [pipelines-demo](https://github.com/guysqr/pipelines-demo) project for quickly creating a number of pipelines, triggered from an equal number of CodeCommit repositories is available.
+
+This project uses the SAM (Serverless Application Model)
+
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders:
 
-- functions - Code for the application's Lambda functions to check the value of, buy, or sell shares of a stock.
-- statemachines - Definition for the state machine that orchestrates the stock trading workflow.
+- functions - Code for the application's Lambda functions to perform the steps necessary to run the pipelines.
+- statemachines - Definition for the state machine that orchestrates the release workflow.
 - template.yaml - A template that defines the application's AWS resources.
 
 This application creates a software release workflow which is triggered by a `release-manifest.json` file being dropped in an S3 bucket. The release process is managed by a Step Functions state machine.
@@ -12,7 +20,11 @@ AWS Step Functions lets you coordinate multiple AWS services into serverless wor
 
 ![alt text](stepfunctions_graph.svg 'Successful Execution')
 
-The application uses several AWS resources, including Step Functions state machines, Lambda functions and an EventBridge rule trigger. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
+The application uses several AWS resources, including Step Functions state machines, Lambda functions and DynamoDB tables.
+
+The DynamoDB tables are used to log releases and pipeline execution state.
+
+Resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
 
 If you prefer to use an integrated development environment (IDE) to build and test the Lambda functions within your application, you can use the AWS Toolkit. The AWS Toolkit is an open source plug-in for popular IDEs that uses the SAM CLI to build and deploy serverless applications on AWS. The AWS Toolkit also adds a simplified step-through debugging experience for Lambda function code. See the following links to get started:
 

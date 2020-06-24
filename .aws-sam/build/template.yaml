@@ -63,6 +63,8 @@ Resources:
                 requestParameters:
                   bucketName:
                   - Ref: ReleaseBucket
+      Tags:
+        CreatedBy: release-manager
   ReleaseBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -100,6 +102,8 @@ Resources:
               - Ref: AWS::AccountId
               - :table/
               - Ref: ReleasesTable
+      Tags:
+        CreatedBy: release-manager
   RunPipelineFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -138,6 +142,8 @@ Resources:
               - Ref: AWS::AccountId
               - :table/
               - Ref: ExecutionsTable
+      Tags:
+        CreatedBy: release-manager
   CheckPipelinesFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -186,6 +192,8 @@ Resources:
               - :table/
               - Ref: ExecutionsTable
               - /*
+      Tags:
+        CreatedBy: release-manager
   ReleasesTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -195,6 +203,8 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
+      Tags:
+        CreatedBy: release-manager
   ExecutionsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -223,6 +233,9 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
+      Tags:
+      - Key: CreatedBy
+        Value: release-manager
 Outputs:
   ReleaseStateMachineArn:
     Description: Release state machine ARN

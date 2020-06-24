@@ -4,23 +4,46 @@ This project is a proof of concept for a Step Functions state machine that can b
 
 ## Prerequisites
 
-This project assumes you have an existing set of CodePipeline deployment pipelines already set up. The [pipelines-demo](https://github.com/guysqr/pipelines-demo) project for quickly creating a number of pipelines, triggered from an equal number of CodeCommit repositories is available.
+This project assumes you have an existing set of CodePipeline deployment pipelines already set up. The [pipelines-demo](https://github.com/guysqr/pipelines-demo) project for quickly creating a number of pipelines, triggered from an equal number of CodeCommit repositories can be used to set these up for demo purposes.
 
-This project uses the SAM (Serverless Application Model)
+You will need to [install SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) before you get started.
 
-This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders:
+#### About SAM
 
-- functions - Code for the application's Lambda functions to perform the steps necessary to run the pipelines.
-- statemachines - Definition for the state machine that orchestrates the release workflow.
-- template.yaml - A template that defines the application's AWS resources.
+The AWS Serverless Application Model (SAM) is an open-source framework for building serverless applications. It provides shorthand syntax to express functions, APIs, databases, and event source mappings. With just a few lines per resource, you can define the application you want and model it using YAML.
 
-This application creates a software release workflow which is triggered by a `release-manifest.json` file being dropped in an S3 bucket. The release process is managed by a Step Functions state machine.
+The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications and Step Functions state machines.
+
+#### About Step Functions
 
 AWS Step Functions lets you coordinate multiple AWS services into serverless workflows so you can build and update apps quickly. Using Step Functions, you can design and run workflows that stitch together services, such as AWS Lambda, AWS Fargate, and Amazon SageMaker, into feature-rich applications.
 
+## About the Release Machine
+
+The Release Machine is a software release workflow for deploying from multiple pipelines simultaneously, triggered by a `release-manifest.json` file being dropped in an S3 bucket. The release process contains steps that
+
+1. Verify the manifest is valid and has not already been run
+2. If valid, records the release request and timestamp
+3. Triggers an execution for each of the requested pipelines
+4. Checks each pipeline execution's state every 30 seconds and records any changes
+5. Records the release as complete if all pipelines complete successfully
+6. Fails the release if any fail to complete successfully
+
 ![alt text](stepfunctions_graph.svg 'Successful Execution')
 
-The application uses several AWS resources, including Step Functions state machines, Lambda functions and DynamoDB tables.
+> Note that this version does not attempt any rollbacks or pipeline execution cancellations when something fails.
+
+### Project structure
+
+Release Machine follows the standard SAM project structure, and includes the following files and folders:
+
+- functions - Code for the application's Lambda functions
+- statemachine - Definition for the state machine that orchestrates the release workflow
+- template.yaml - A template that defines the application's AWS resources
+
+### How it works
+
+The `template.yaml` file declares the AWS resources, including Step Functions state machines, Lambda functions and DynamoDB tables. It also sets up permissions
 
 The DynamoDB tables are used to log releases and pipeline execution state.
 
@@ -37,7 +60,7 @@ The AWS Toolkit for VS Code includes full support for state machine visualizatio
 
 ## Deploy the application
 
-The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda.
+The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications and Step Functions state machines.
 
 To use the SAM CLI, you need the following tools:
 

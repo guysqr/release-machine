@@ -30,6 +30,9 @@ Resources:
             TableName: !Ref ExecutionsTable
       Events:
         ReleaseTrigger:
+          # Type: S3
+          # Properties:
+          #   Bucket: !Ref ReleaseBucket
           Type: CloudWatchEvent
           Properties:
             EventBusName: default
@@ -46,6 +49,9 @@ Resources:
                 requestParameters:
                   bucketName:
                     - !Ref ReleaseBucket
+      Tags:
+        CreatedBy: 'release-manager'
+
   ReleaseBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -82,6 +88,8 @@ Resources:
                     - Ref: 'AWS::AccountId'
                     - ':table/'
                     - Ref: ReleasesTable
+      Tags:
+        CreatedBy: 'release-manager'
 
   RunPipelineFunction:
     Type: AWS::Serverless::Function
@@ -119,6 +127,8 @@ Resources:
                     - Ref: 'AWS::AccountId'
                     - ':table/'
                     - Ref: ExecutionsTable
+      Tags:
+        CreatedBy: 'release-manager'
 
   CheckPipelinesFunction:
     Type: AWS::Serverless::Function
@@ -166,6 +176,8 @@ Resources:
                       - ':table/'
                       - Ref: ExecutionsTable
                       - '/*'
+      Tags:
+        CreatedBy: 'release-manager'
 
   ReleasesTable:
     Type: AWS::Serverless::SimpleTable # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
@@ -176,31 +188,17 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
-
-  # ExecutionsTable:
-  #   Type: AWS::Serverless::SimpleTable # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
-  #   Properties:
-  #     PrimaryKey:
-  #       Name: ExecutionId
-  #       Type: String
-  #     ProvisionedThroughput:
-  #       ReadCapacityUnits: 1
-  #       WriteCapacityUnits: 1
+      Tags:
+        CreatedBy: 'release-manager'
 
   ExecutionsTable:
-    Type: AWS::DynamoDB::Table # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
+    Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
         - AttributeName: ExecutionId
           AttributeType: 'S'
         - AttributeName: ReleaseId
           AttributeType: 'S'
-        # - AttributeName: Pipeline
-        #   AttributeType: 'S'
-        # - AttributeName: Timestamp
-        #   AttributeType: 'S'
-        # - AttributeName: Status
-        #   AttributeType: 'S'
       KeySchema:
         - AttributeName: ExecutionId
           KeyType: HASH
@@ -221,6 +219,9 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
+      Tags:
+        - Key: 'CreatedBy'
+          Value: 'release-manager'
 
 Outputs:
   # Find out more about other implicit resources you can reference within SAM

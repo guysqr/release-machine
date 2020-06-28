@@ -24,10 +24,6 @@ exports.lambdaHandler = async (event, context) => {
   try {
     var execution = await codepipeline.startPipelineExecution(params).promise();
     console.log(execution);
-    if (execution.hasOwnProperty('PipelineNotFoundException')) {
-      console.log('pipeline not found: ' + event.pipeline);
-      return { error: execution.PipelineNotFoundException };
-    }
     if (execution.hasOwnProperty('pipelineExecutionId')) {
       params = {
         TableName: process.env.executionsTable,
@@ -46,12 +42,12 @@ exports.lambdaHandler = async (event, context) => {
         console.log(e);
         return { error: e };
       }
-      return execution;
+      return { error: '', pipeline: event.pipeline, executionId: execution };
     } else {
       console.log('Failed to start pipeline ' + event.pipeline);
     }
   } catch (e) {
     console.log('Error starting pipeline - not found: ' + event.pipeline);
-    return { error: e };
+    return { error: 'PipelineNotFoundException', pipeline: event.pipeline };
   }
 };

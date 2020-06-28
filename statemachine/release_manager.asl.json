@@ -56,7 +56,29 @@
                     "Run Pipeline": {
                         "Type": "Task",
                         "Resource": "${RunPipelineFunctionArn}",
-                        "End": true
+                        "Next": "Check Pipeline Execution"
+                    },
+                    "Check Pipeline Execution": {
+                        "Type": "Choice",
+                        "Choices": [
+                            {
+                                "Variable": "$.error",
+                                "StringEquals": "",
+                                "Next": "Pipeline Ok"
+                            },
+                            {
+                                "Variable": "$.error",
+                                "StringGreaterThan": "",
+                                "Next": "Pipeline Error"
+                            }
+                        ],
+                        "Default": "Pipeline Error"
+                    },
+                    "Pipeline Error": {
+                        "Type": "Fail"
+                    },
+                    "Pipeline Ok": {
+                        "Type": "Succeed"
                     }
                 }
             },

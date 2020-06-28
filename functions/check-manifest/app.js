@@ -23,7 +23,7 @@ exports.lambdaHandler = async (event, context) => {
   if (event.hasOwnProperty('releaseId')) {
     manifestObj = event;
     console.log('Got manifest from API call');
-  } else {
+  } else if (event.hasOwnProperty('detail') && event.detail.hasOwnProperty('requestParameters')) {
     var params = {
       Key: event.detail.requestParameters.key,
       Bucket: event.detail.requestParameters.bucketName,
@@ -41,6 +41,9 @@ exports.lambdaHandler = async (event, context) => {
       console.log(error);
       return { description: 'Manifest could not be read from S3', error: e, steps: 0 };
     }
+  } else {
+    console.log(error);
+    return { description: 'No manifest was provided!', error: e, steps: 0 };
   }
   try {
     if (manifestObj.hasOwnProperty('releaseId') && manifestObj.hasOwnProperty('pipelines') && manifestObj.pipelines.hasOwnProperty('length')) {

@@ -20,7 +20,7 @@ AWS Step Functions lets you coordinate multiple AWS services into serverless wor
 
 ## About the Release Machine
 
-The Release Machine is a software release workflow for deploying from multiple pipelines simultaneously, triggered by a `release-manifest.json` file being dropped in an S3 bucket or posted to an API Gateway endpoint. 
+The Release Machine is a software release workflow for deploying from multiple pipelines simultaneously, triggered by a `release-manifest.json` file being dropped in an S3 bucket or posted to an API Gateway endpoint.
 
 The release process contains steps that
 
@@ -31,7 +31,7 @@ The release process contains steps that
 5. Records the release as complete if all pipelines complete successfully
 6. Fails the release if any fail to complete successfully
 
-![alt text](stepfunctions_graph.svg 'Successful Execution')
+![alt text](release-machine.svg 'Successful Execution')
 
 > Note that this version does not attempt any rollbacks or pipeline execution cancellations when something fails.
 

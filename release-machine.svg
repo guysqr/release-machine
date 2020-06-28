@@ -1,0 +1,306 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "https://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" id="sfn-svg" class="sfn-workflow-graph" width="601" height="792">  
+<g transform="translate(12,19.265625)">
+<g class="nodes">
+<g class="node-container" transform="translate(215.796875,18.390625)">
+<g class="node anchor">
+<circle class="shape" x="-15.65625" y="-8.390625" r="25.65625"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Start</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(289.1640625,737.984375)">
+<g class="node anchor">
+<circle class="shape" x="-12.1875" y="-8.390625" r="22.1875"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">End</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(215.796875,80.171875)">
+<g class="node state Task Succeeded">
+<rect class="shape" rx="5" ry="5" x="-55.140625" y="-18.390625" width="110.28125" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Read Manifest</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(215.796875,141.953125)">
+<g class="node state Choice Succeeded">
+<rect class="shape" rx="5" ry="5" x="-58.40625" y="-18.390625" width="116.8125" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Manifest Valid?</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(436.5703125,285.515625)">
+<g class="node state Map Container Succeeded" transform="translate(-139.484375,-100.171875)">
+<rect class="shape" rx="5" ry="5" x="-10" y="-10" width="276.96875" height="198.34375"/>
+<rect class="shape" rx="5" ry="5" x="-5" y="-5" width="277.96875" height="199.34375"/>
+<rect class="shape" rx="5" ry="5" x="0" y="0" width="278.96875" height="200.34375"/>
+<g class="branches" transform="translate(20,20)">
+<g class="branch" transform="translate(0,0)">
+<g class="nodes">
+<g class="node-container" transform="translate(116.1328125,18.390625)">
+<g class="node state Task Succeeded">
+<rect class="shape" rx="5" ry="5" x="-49.703125" y="-18.390625" width="99.40625" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Run Pipeline</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(116.1328125,80.171875)">
+<g class="node state Choice Succeeded">
+<rect class="shape" rx="5" ry="5" x="-88.96875" y="-18.390625" width="177.9375" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Check Pipeline Execution</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(46.390625,141.953125)">
+<g class="node state Succeed Succeeded">
+<rect class="shape" rx="5" ry="5" x="-46.390625" y="-18.390625" width="92.78125" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Pipeline Ok</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(185.875,141.953125)">
+<g class="node state Fail NotYetStarted">
+<rect class="shape" rx="5" ry="5" x="-53.09375" y="-18.390625" width="106.1875" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Pipeline Error</tspan>
+</text>
+</g>
+</g>
+</g>
+<g class="edges">
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead21)" d="M116.1328125,36.78125L116.1328125,38.86458333333333C116.1328125,40.947916666666664,116.1328125,45.11458333333333,116.1328125,49.28125C116.1328125,53.447916666666664,116.1328125,57.61458333333333,116.1328125,59.697916666666664L116.1328125,61.78125" style="fill: none;"/>
+<defs>
+<marker id="arrowhead21" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead22)" d="M74.61204634547295,98.5625L69.90847612122745,100.64583333333331C65.20490589698197,102.72916666666666,55.79776544849098,106.89583333333331,51.09419522424549,111.06249999999999C46.390625,115.22916666666666,46.390625,119.39583333333333,46.390625,121.47916666666666L46.390625,123.5625" style="fill: none;"/>
+<defs>
+<marker id="arrowhead22" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead23)" d="M157.65357865452705,98.5625L162.35714887877253,100.64583333333331C167.06071910301802,102.72916666666666,176.467859551509,106.89583333333331,181.1714297757545,111.06249999999999C185.875,115.22916666666666,185.875,119.39583333333333,185.87499999999997,121.47916666666666L185.875,123.5625" style="fill: none;"/>
+<defs>
+<marker id="arrowhead23" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+</g>
+</g>
+</g>
+<path class="path" marker-end="url(#arrowhead24)" d="M139.484375,0L139.484375,1.6666666666666665C139.484375,3.333333333333333,139.484375,6.666666666666666,138.92578125,8.333333333333332C138.3671875,10,137.25,10,136.69140625,11.666666666666664C136.1328125,13.333333333333332,136.1328125,16.666666666666664,136.1328125,18.333333333333332L136.1328125,20" style="fill: none;"/>
+</g>
+</g>
+<g class="node-container" transform="translate(215.796875,676.203125)">
+<g class="node state Fail NotYetStarted">
+<rect class="shape" rx="5" ry="5" x="-62.890625" y="-18.390625" width="125.78125" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Error in Manifest</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(56.453125,676.203125)">
+<g class="node state Pass NotYetStarted">
+<rect class="shape" rx="5" ry="5" x="-56.453125" y="-18.390625" width="112.90625" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Nothing To Do</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(436.5703125,429.078125)">
+<g class="node state Wait Succeeded">
+<rect class="shape" rx="5" ry="5" x="-66.078125" y="-18.390625" width="132.15625" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Wait for Pipelines</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(353.9296875,490.859375)">
+<g class="node state Task Succeeded">
+<rect class="shape" rx="5" ry="5" x="-59.28125" y="-18.390625" width="118.5625" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Check Pipelines</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(436.5703125,552.640625)">
+<g class="node state Choice Succeeded">
+<rect class="shape" rx="5" ry="5" x="-60.015625" y="-18.390625" width="120.03125" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Pipelines Done?</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(492.984375,676.203125)">
+<g class="node state Fail NotYetStarted">
+<rect class="shape" rx="5" ry="5" x="-28.984375" y="-18.390625" width="57.96875" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Failed</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(380.15625,614.421875)">
+<g class="node state Task Succeeded">
+<rect class="shape" rx="5" ry="5" x="-57.96875" y="-18.390625" width="115.9375" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Record Release</tspan>
+</text>
+</g>
+</g>
+<g class="node-container" transform="translate(380.15625,676.203125)">
+<g class="node state Succeed Succeeded">
+<rect class="shape" rx="5" ry="5" x="-43.84375" y="-18.390625" width="87.6875" height="36.78125"/>
+<text class="label">
+<tspan xml:space="preserve" text-anchor="middle" alignment-baseline="central">Succeeded</tspan>
+</text>
+</g>
+</g>
+</g>
+<g class="edges">
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead25)" d="M215.796875,98.5625L215.79687499999994,100.64583333333331C215.79687499999997,102.72916666666666,215.79687499999997,106.89583333333331,215.79687499999994,111.06249999999999C215.79687499999997,115.22916666666666,215.79687499999997,119.39583333333333,215.79687499999994,121.47916666666666L215.796875,123.5625" style="fill: none;"/>
+<defs>
+<marker id="arrowhead25" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead26)" d="M215.796875,44.046875L215.79687499999994,44.91927083333333C215.79687499999997,45.791666666666664,215.79687499999997,47.53645833333333,215.79687499999994,50.4921875C215.79687499999997,53.447916666666664,215.79687499999997,57.61458333333333,215.79687499999994,59.697916666666664L215.796875,61.78125" style="fill: none;"/>
+<defs>
+<marker id="arrowhead26" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead27)" d="M274.203125,150.12532898810997L301.26432291666663,153.91173249009162C328.3255208333333,157.6981359920733,382.44791666666663,165.27094299603664,409.5091145833333,171.14067983135166C436.5703125,177.01041666666666,436.5703125,181.17708333333331,436.5703125,183.26041666666666L436.5703125,185.34375" style="fill: none;"/>
+<defs>
+<marker id="arrowhead27" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead28)" d="M215.796875,160.34375L215.79687499999994,162.42708333333331C215.79687499999997,164.51041666666666,215.79687499999997,168.67708333333331,215.79687499999994,189.5390625C215.79687499999997,210.40104166666666,215.79687499999997,247.95833333333331,215.79687499999994,285.515625C215.79687499999997,323.07291666666663,215.79687499999997,360.6302083333333,215.79687499999994,384.55729166666663C215.79687499999997,408.484375,215.79687499999997,418.78125,215.79687499999994,429.07812499999994C215.79687499999997,439.375,215.79687499999997,449.671875,215.79687499999994,459.96874999999994C215.79687499999997,470.265625,215.79687499999997,480.5625,215.79687499999994,490.85937499999994C215.79687499999997,501.15625,215.79687499999997,511.453125,215.79687499999994,521.75C215.79687499999997,532.046875,215.79687499999997,542.34375,215.79687499999994,552.640625C215.79687499999997,562.9375,215.79687499999997,573.234375,215.79687499999994,583.53125C215.79687499999997,593.828125,215.79687499999997,604.125,215.79687499999994,614.421875C215.79687499999997,624.71875,215.79687499999997,635.015625,215.79687499999994,642.2473958333333C215.79687499999997,649.4791666666666,215.79687499999997,653.6458333333333,215.79687499999994,655.7291666666666L215.796875,657.8125" style="fill: none;"/>
+<defs>
+<marker id="arrowhead28" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead29)" d="M157.390625,153.27585065699157L140.56770833333331,156.5371672141596C123.74479166666666,159.7984837713277,90.09895833333333,166.32111688566386,73.27604166666667,188.36107927616524C56.453125,210.40104166666666,56.453125,247.95833333333331,56.45312499999999,285.515625C56.453125,323.07291666666663,56.453125,360.6302083333333,56.45312499999999,384.55729166666663C56.453125,408.484375,56.453125,418.78125,56.45312499999999,429.07812499999994C56.453125,439.375,56.453125,449.671875,56.45312499999999,459.96874999999994C56.453125,470.265625,56.453125,480.5625,56.45312499999999,490.85937499999994C56.453125,501.15625,56.453125,511.453125,56.45312499999999,521.75C56.453125,532.046875,56.453125,542.34375,56.45312499999999,552.640625C56.453125,562.9375,56.453125,573.234375,56.45312499999999,583.53125C56.453125,593.828125,56.453125,604.125,56.45312499999999,614.421875C56.453125,624.71875,56.453125,635.015625,56.45312499999999,642.2473958333333C56.453125,649.4791666666666,56.453125,653.6458333333333,56.45312499999999,655.7291666666666L56.453125,657.8125" style="fill: none;"/>
+<defs>
+<marker id="arrowhead29" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead30)" d="M56.453125,694.59375L56.45312499999999,696.6770833333334C56.453125,698.7604166666666,56.453125,702.9270833333333,91.57251994338864,709.672251950722C126.69191488677728,716.4174205681109,196.9307047735546,725.7410911362216,232.05009971694324,730.402926420277L267.1694946603319,735.0647617043325" style="fill: none;"/>
+<defs>
+<marker id="arrowhead30" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead31)" d="M215.796875,694.59375L215.79687499999994,696.6770833333334C215.79687499999997,698.7604166666666,215.79687499999997,702.9270833333333,224.61659510645384,708.723884167563C233.43631521290774,714.5206850017929,251.07575542581552,721.9476200035858,259.8954755322694,725.6610875044822L268.7151956387233,729.3745550053787" style="fill: none;"/>
+<defs>
+<marker id="arrowhead31" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead32)" d="M436.5703125,385.6875L436.5703125,387.7708333333333C436.5703125,389.85416666666663,436.5703125,394.0208333333333,436.5703125,398.1875C436.5703125,402.35416666666663,436.5703125,406.52083333333326,436.5703125,408.60416666666663L436.5703125,410.6875" style="fill: none;"/>
+<defs>
+<marker id="arrowhead32" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead33)" d="M387.37050692336874,447.46875L381.7970370194739,449.5520833333333C376.22356711557916,451.63541666666663,365.0766273077896,455.8020833333333,359.50315740389476,459.96875C353.9296875,464.13541666666663,353.9296875,468.30208333333326,353.9296875,470.38541666666663L353.9296875,472.46875" style="fill: none;"/>
+<defs>
+<marker id="arrowhead33" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead34)" d="M353.9296875,509.25L353.9296875,511.3333333333333C353.9296875,513.4166666666666,353.9296875,517.5833333333333,359.50315740389476,521.75C365.0766273077896,525.9166666666666,376.22356711557916,530.0833333333333,381.7970370194739,532.1666666666666L387.37050692336874,534.25" style="fill: none;"/>
+<defs>
+<marker id="arrowhead34" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead35)" d="M464.6353178743045,534.25L467.8145878119204,532.1666666666666C470.99385774953635,530.0833333333333,477.3523976247682,525.9166666666666,480.53166756238403,518.6848958333334C483.7109375,511.453125,483.7109375,501.15625,483.71093749999994,490.85937499999994C483.7109375,480.5625,483.7109375,470.265625,480.53166756238403,463.03385416666663C477.3523976247682,455.8020833333333,470.99385774953635,451.63541666666663,467.8145878119204,449.5520833333333L464.6353178743045,447.46875" style="fill: none;"/>
+<defs>
+<marker id="arrowhead35" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead36)" d="M470.15622628983306,571.03125L473.9609177415275,573.1145833333334C477.765609193222,575.1979166666666,485.374992096611,579.3645833333333,489.1796835483055,586.5963541666666C492.984375,593.828125,492.984375,604.125,492.984375,614.421875C492.984375,624.71875,492.984375,635.015625,492.984375,642.2473958333333C492.984375,649.4791666666666,492.984375,653.6458333333333,492.984375,655.7291666666666L492.984375,657.8125" style="fill: none;"/>
+<defs>
+<marker id="arrowhead36" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead37)" d="M402.98439871016694,571.03125L399.1797072584724,573.1145833333334C395.3750158067779,575.1979166666666,387.76563290338896,579.3645833333333,383.96094145169445,583.53125C380.15625,587.6979166666666,380.15625,591.8645833333333,380.15625,593.9479166666666L380.15625,596.03125" style="fill: none;"/>
+<defs>
+<marker id="arrowhead37" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead38)" d="M380.15625,632.8125L380.15625,634.8958333333334C380.15625,636.9791666666666,380.15625,641.1458333333333,380.15625,645.3124999999999C380.15625,649.4791666666666,380.15625,653.6458333333333,380.15625,655.7291666666666L380.15625,657.8125" style="fill: none;"/>
+<defs>
+<marker id="arrowhead38" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead39)" d="M380.15625,694.59375L380.15625,696.6770833333334C380.15625,698.7604166666666,380.15625,702.9270833333333,368.4925196924427,708.9700963812782C356.8287893848854,715.0131094292233,333.5013287697708,722.9324688584464,321.8375984622135,726.8921485730582L310.17386815465625,730.8518282876697" style="fill: none;"/>
+<defs>
+<marker id="arrowhead39" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+<g class="edge">
+<path class="path" marker-end="url(#arrowhead40)" d="M492.984375,694.59375L492.984375,696.6770833333334C492.984375,698.7604166666666,492.984375,702.9270833333333,462.6704871819741,709.6047327551512C432.35659936394825,716.2823821769691,371.7288237278965,725.4710143539382,341.4149359098706,730.0653304424229L311.1010480918448,734.6596465309075" style="fill: none;"/>
+<defs>
+<marker id="arrowhead40" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto">
+<path d="M 0 0 L 10 5 L 0 10 z"/>
+</marker>
+</defs>
+</g>
+</g>
+</g>
+<style xmlns="http://www.w3.org/1999/xhtml">.node &gt; .shape {stroke: #555555;stroke-width: 0.6px;fill: #FFFFFF;} path {stroke: #555;background-color: #555;stroke-width: 1px;} .node.state.NotYetStarted &gt; .shape,.node.state.Container &gt; .shape {stroke-dasharray: 5 2;} .node.state.Failed &gt; .shape,rect.legend.Failed {fill: #DE322F;} .node.state.CaughtError &gt; .shape,rect.legend.CaughtError {fill: #FFA500;} .node.state.Succeeded &gt; .shape,rect.legend.Succeeded {fill: #2BD62E;} .node.state.InProgress &gt; .shape,rect.legend.InProgress {fill: #53c9ed;} .node.state.Cancelled &gt; .shape,rect.legend.Cancelled {fill: #dddddd;} .node.anchor &gt; .shape {fill: #FFDA75;} .node.state.hovered:not(.selected):not(.NotYetStarted) &gt; .shape,.node.selected &gt; .shape {stroke: #555555;stroke-width: 2px;} .node.state.Container.Failed &gt; .shape {fill: #EE9592;} .node.state.Container.CaughtError &gt; .shape {fill: #FFD27F;} .node.state.Container.Succeeded &gt; .shape {fill: #91EA9A;} .node.state.Container.InProgress &gt; .shape {fill :#A9E4F7;} .node.state.Container.Cancelled &gt; .shape {fill: #EEEEEE;} marker {fill: #555555;} .node.anchor,.node.state.NotYetStarted {cursor: default;} .node.state {cursor: pointer;} .label tspan {font-family: sans-serif; font-weight: normal;font-size: 12px;text-shadow: none;} </style>
+</svg>

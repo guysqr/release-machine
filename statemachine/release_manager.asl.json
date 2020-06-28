@@ -24,6 +24,11 @@
                     "Variable": "$.steps",
                     "NumericGreaterThan": 0,
                     "Next": "Run Pipelines"
+                },
+                {
+                    "Variable": "$.error",
+                    "StringGreaterThan": "",
+                    "Next": "Error in Manifest"
                 }
             ],
             "Default": "Nothing To Do"
@@ -31,6 +36,9 @@
         "Nothing To Do": {
             "Type": "Pass",
             "End": true
+        },
+        "Error in Manifest": {
+            "Type": "Fail"
         },
         "Run Pipelines": {
             "Type": "Map",

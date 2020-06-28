@@ -28,11 +28,14 @@ Resources:
             TableName: !Ref ReleasesTable
         - DynamoDBWritePolicy:
             TableName: !Ref ExecutionsTable
+
       Events:
+        ApiEventTrigger:
+          Type: Api
+          Properties:
+            Method: post
+            Path: /
         ReleaseTrigger:
-          # Type: S3
-          # Properties:
-          #   Bucket: !Ref ReleaseBucket
           Type: CloudWatchEvent
           Properties:
             EventBusName: default
@@ -67,6 +70,7 @@ Resources:
       CodeUri: functions/check-manifest/
       Handler: app.lambdaHandler
       Runtime: nodejs10.x
+      Tracing: Active
       Environment:
         Variables:
           releasesTable: !Ref ReleasesTable
@@ -97,6 +101,7 @@ Resources:
       CodeUri: functions/pipeline-runner/
       Handler: app.lambdaHandler
       Runtime: nodejs10.x
+      Tracing: Active
       Environment:
         Variables:
           releasesTable: !Ref ReleasesTable
@@ -136,6 +141,7 @@ Resources:
       CodeUri: functions/check-pipelines/
       Handler: app.lambdaHandler
       Runtime: nodejs10.x
+      Tracing: Active
       Environment:
         Variables:
           releasesTable: !Ref ReleasesTable
@@ -222,6 +228,50 @@ Resources:
       Tags:
         - Key: 'CreatedBy'
           Value: 'release-manager'
+
+  CloudTrailBucket:
+    Type: AWS::S3::Bucket
+
+  CloudTrailForBucket:
+    DependsOn:
+      - CloudTrailBucketPolicy
+    Type: AWS::CloudTrail::Trail
+    Properties:
+      IsLogging: true
+      S3BucketName: !Ref CloudTrailBucket
+      EventSelectors:
+        - DataResources:
+            - Type: AWS::S3::Object
+              Values:
+                - 'Fn::Join':
+                    - ''
+                    - - !GetAtt ReleaseBucket.Arn
+                      - '/'
+          IncludeManagementEvents: false
+          ReadWriteType: WriteOnly
+
+  CloudTrailBucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref CloudTrailBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AWSCloudTrailAclCheck
+            Effect: Allow
+            Principal:
+              Service: 'cloudtrail.amazonaws.com'
+            Action: 's3:GetBucketAcl'
+            Resource: !Sub 'arn:aws:s3:::${CloudTrailBucket}'
+          - Sid: AWSCloudTrailWrite
+            Effect: Allow
+            Principal:
+              Service: 'cloudtrail.amazonaws.com'
+            Action: 's3:PutObject'
+            Resource: !Sub 'arn:aws:s3:::${CloudTrailBucket}/AWSLogs/${AWS::AccountId}/*'
+            Condition:
+              StringEquals:
+                's3:x-amz-acl': 'bucket-owner-full-control'
 
 Outputs:
   # Find out more about other implicit resources you can reference within SAM

@@ -20,10 +20,12 @@ AWS Step Functions lets you coordinate multiple AWS services into serverless wor
 
 ## About the Release Machine
 
-The Release Machine is a software release workflow for deploying from multiple pipelines simultaneously, triggered by a `release-manifest.json` file being dropped in an S3 bucket. The release process contains steps that
+The Release Machine is a software release workflow for deploying from multiple pipelines simultaneously, triggered by a `release-manifest.json` file being dropped in an S3 bucket or posted to an API Gateway endpoint. 
+
+The release process contains steps that
 
 1. Verify the manifest is valid and has not already been run
-2. If valid, records the release request and timestamp
+2. If valid, it records the release request and timestamp
 3. Triggers an execution for each of the requested pipelines
 4. Checks each pipeline execution's state every 30 seconds and records any changes
 5. Records the release as complete if all pipelines complete successfully
@@ -32,6 +34,19 @@ The Release Machine is a software release workflow for deploying from multiple p
 ![alt text](stepfunctions_graph.svg 'Successful Execution')
 
 > Note that this version does not attempt any rollbacks or pipeline execution cancellations when something fails.
+
+### Triggering the Release Machine
+
+At the time of writing, only a few event types can be used to trigger Step Functions:
+
+- Schedule
+- CloudWatchEvent
+- EventBridgeRule
+- Api
+
+To use a trigger based on S3, object level events need to be delivered into CloudTrail. If you don't do this step, dropping the manifest file in the bucket will not create the CloudWatch event we are listening for.
+
+Release Machine can be triggered by an API Gateway endpoint as well. To enable that, uncomment the relevant Event definition in the ReleaseStateMachine definition in the `template.yaml` file and do a `sam build` then `sam deploy` and then call the API via the console, making sure to send `release-manifest.json` as the POST payload.
 
 ## Project structure
 

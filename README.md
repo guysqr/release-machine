@@ -1,6 +1,6 @@
 # Release Machine
 
-This project is a proof of concept for a Step Functions state machine that can be used to orchestrate simultaneous deployments from multiple pipelines.
+This project is a proof of concept for a Step Functions state machine that can be used to orchestrate simultaneous deployments from multiple pipelines using [dynamic parallelism](https://aws.amazon.com/blogs/aws/new-step-functions-support-for-dynamic-parallelism/).
 
 ## Prerequisites
 

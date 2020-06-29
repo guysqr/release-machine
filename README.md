@@ -4,7 +4,7 @@ This project is a proof of concept for a Step Functions state machine that can b
 
 ## Prerequisites
 
-This project assumes you have an existing set of CodePipeline deployment pipelines already set up. The [pipelines-demo](https://github.com/guysqr/pipelines-demo) project for quickly creating a number of pipelines, triggered from an equal number of CodeCommit repositories can be used to set these up for demo purposes.
+This project assumes you have an existing set of CodePipeline deployment pipelines already set up. The [cdk-serverless-stack](https://github.com/guysqr/cdk-serverless-stack) project for quickly creating a number of pipelines, triggered from an equal number of CodeCommit repositories can be used to set these up for demo purposes.
 
 You will need to [install SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) before you get started.
 

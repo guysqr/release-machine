@@ -9,20 +9,20 @@ Resources:
   ReleaseStateMachine:
     Type: AWS::Serverless::StateMachine
     Properties:
-      DefinitionUri: ../../statemachine/release_manager.asl.json
+      DefinitionUri: ../../statemachine/release_machine.asl.json
       DefinitionSubstitutions:
         CheckManifestFunctionArn:
           Fn::GetAtt:
-          - CheckManifestFunction
-          - Arn
+            - CheckManifestFunction
+            - Arn
         RunPipelineFunctionArn:
           Fn::GetAtt:
-          - RunPipelineFunction
-          - Arn
+            - RunPipelineFunction
+            - Arn
         CheckPipelinesFunctionArn:
           Fn::GetAtt:
-          - CheckPipelinesFunction
-          - Arn
+            - CheckPipelinesFunction
+            - Arn
         DDBPutItem:
           Fn::Sub: arn:${AWS::Partition}:states:::dynamodb:putItem
         DDBUpdatetem:
@@ -30,21 +30,21 @@ Resources:
         DDBTable:
           Ref: ReleasesTable
       Policies:
-      - LambdaInvokePolicy:
-          FunctionName:
-            Ref: CheckManifestFunction
-      - LambdaInvokePolicy:
-          FunctionName:
-            Ref: RunPipelineFunction
-      - LambdaInvokePolicy:
-          FunctionName:
-            Ref: CheckPipelinesFunction
-      - DynamoDBWritePolicy:
-          TableName:
-            Ref: ReleasesTable
-      - DynamoDBWritePolicy:
-          TableName:
-            Ref: ExecutionsTable
+        - LambdaInvokePolicy:
+            FunctionName:
+              Ref: CheckManifestFunction
+        - LambdaInvokePolicy:
+            FunctionName:
+              Ref: RunPipelineFunction
+        - LambdaInvokePolicy:
+            FunctionName:
+              Ref: CheckPipelinesFunction
+        - DynamoDBWritePolicy:
+            TableName:
+              Ref: ReleasesTable
+        - DynamoDBWritePolicy:
+            TableName:
+              Ref: ExecutionsTable
       Events:
         ApiEventTrigger:
           Type: Api
@@ -57,27 +57,27 @@ Resources:
             EventBusName: default
             Pattern:
               source:
-              - aws.s3
+                - aws.s3
               detail-type:
-              - AWS API Call via CloudTrail
+                - AWS API Call via CloudTrail
               detail:
                 eventSource:
-                - s3.amazonaws.com
+                  - s3.amazonaws.com
                 eventName:
-                - PutObject
+                  - PutObject
                 requestParameters:
                   bucketName:
-                  - Ref: ReleaseBucket
+                    - Ref: ReleaseBucket
       Tags:
-        CreatedBy: release-manager
+        CreatedBy: release-machine
   ReleaseBucket:
     Type: AWS::S3::Bucket
     Properties:
       VersioningConfiguration:
         Status: Enabled
       Tags:
-      - Key: CreatedBy
-        Value: release-manager
+        - Key: CreatedBy
+          Value: release-machine
   CheckManifestFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -90,26 +90,26 @@ Resources:
           releasesTable:
             Ref: ReleasesTable
       Policies:
-      - S3ReadPolicy:
-          BucketName:
-            Ref: ReleaseBucket
-      - Version: '2012-10-17'
-        Statement:
-        - Effect: Allow
-          Action:
-          - dynamodb:GetItem
-          - dynamodb:PutItem
-          Resource:
-            Fn::Join:
-            - ''
-            - - 'arn:aws:dynamodb:'
-              - Ref: AWS::Region
-              - ':'
-              - Ref: AWS::AccountId
-              - :table/
-              - Ref: ReleasesTable
+        - S3ReadPolicy:
+            BucketName:
+              Ref: ReleaseBucket
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:dynamodb:'
+                    - Ref: AWS::Region
+                    - ':'
+                    - Ref: AWS::AccountId
+                    - :table/
+                    - Ref: ReleasesTable
       Tags:
-        CreatedBy: release-manager
+        CreatedBy: release-machine
   RunPipelineFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -124,33 +124,33 @@ Resources:
           executionsTable:
             Ref: ExecutionsTable
       Policies:
-      - Statement:
-        - Sid: CodePipelinePermissions
-          Effect: Allow
-          Action:
-          - codepipeline:StartPipelineExecution
-          - codepipeline:StopPipelineExecution
-          - codepipeline:GetPipelineState
-          - codepipeline:GetPipelineExecution
-          - codepipeline:ListPipelineExecutions
-          Resource: '*'
-      - Version: '2012-10-17'
-        Statement:
-        - Effect: Allow
-          Action:
-          - dynamodb:GetItem
-          - dynamodb:PutItem
-          Resource:
-            Fn::Join:
-            - ''
-            - - 'arn:aws:dynamodb:'
-              - Ref: AWS::Region
-              - ':'
-              - Ref: AWS::AccountId
-              - :table/
-              - Ref: ExecutionsTable
+        - Statement:
+            - Sid: CodePipelinePermissions
+              Effect: Allow
+              Action:
+                - codepipeline:StartPipelineExecution
+                - codepipeline:StopPipelineExecution
+                - codepipeline:GetPipelineState
+                - codepipeline:GetPipelineExecution
+                - codepipeline:ListPipelineExecutions
+              Resource: '*'
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:dynamodb:'
+                    - Ref: AWS::Region
+                    - ':'
+                    - Ref: AWS::AccountId
+                    - :table/
+                    - Ref: ExecutionsTable
       Tags:
-        CreatedBy: release-manager
+        CreatedBy: release-machine
   CheckPipelinesFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -165,43 +165,43 @@ Resources:
           executionsTable:
             Ref: ExecutionsTable
       Policies:
-      - Statement:
-        - Sid: CodePipelinePermissions
-          Effect: Allow
-          Action:
-          - codepipeline:StartPipelineExecution
-          - codepipeline:StopPipelineExecution
-          - codepipeline:GetPipelineState
-          - codepipeline:GetPipelineExecution
-          - codepipeline:ListPipelineExecutions
-          Resource: '*'
-      - Version: '2012-10-17'
-        Statement:
-        - Effect: Allow
-          Action:
-          - dynamodb:Query
-          - dynamodb:UpdateItem
-          - dynamodb:GetItem
-          Resource:
-          - Fn::Join:
-            - ''
-            - - 'arn:aws:dynamodb:'
-              - Ref: AWS::Region
-              - ':'
-              - Ref: AWS::AccountId
-              - :table/
-              - Ref: ExecutionsTable
-          - Fn::Join:
-            - ''
-            - - 'arn:aws:dynamodb:'
-              - Ref: AWS::Region
-              - ':'
-              - Ref: AWS::AccountId
-              - :table/
-              - Ref: ExecutionsTable
-              - /*
+        - Statement:
+            - Sid: CodePipelinePermissions
+              Effect: Allow
+              Action:
+                - codepipeline:StartPipelineExecution
+                - codepipeline:StopPipelineExecution
+                - codepipeline:GetPipelineState
+                - codepipeline:GetPipelineExecution
+                - codepipeline:ListPipelineExecutions
+              Resource: '*'
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:Query
+                - dynamodb:UpdateItem
+                - dynamodb:GetItem
+              Resource:
+                - Fn::Join:
+                    - ''
+                    - - 'arn:aws:dynamodb:'
+                      - Ref: AWS::Region
+                      - ':'
+                      - Ref: AWS::AccountId
+                      - :table/
+                      - Ref: ExecutionsTable
+                - Fn::Join:
+                    - ''
+                    - - 'arn:aws:dynamodb:'
+                      - Ref: AWS::Region
+                      - ':'
+                      - Ref: AWS::AccountId
+                      - :table/
+                      - Ref: ExecutionsTable
+                      - /*
       Tags:
-        CreatedBy: release-manager
+        CreatedBy: release-machine
   ReleasesTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -212,60 +212,60 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
       Tags:
-        CreatedBy: release-manager
+        CreatedBy: release-machine
   ExecutionsTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-      - AttributeName: ExecutionId
-        AttributeType: S
-      - AttributeName: ReleaseId
-        AttributeType: S
-      KeySchema:
-      - AttributeName: ExecutionId
-        KeyType: HASH
-      GlobalSecondaryIndexes:
-      - IndexName: releaseIndex
-        KeySchema:
+        - AttributeName: ExecutionId
+          AttributeType: S
         - AttributeName: ReleaseId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ExecutionId
           KeyType: HASH
-        Projection:
-          NonKeyAttributes:
-          - Pipeline
-          - Status
-          - Timestamp
-          ProjectionType: INCLUDE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+      GlobalSecondaryIndexes:
+        - IndexName: releaseIndex
+          KeySchema:
+            - AttributeName: ReleaseId
+              KeyType: HASH
+          Projection:
+            NonKeyAttributes:
+              - Pipeline
+              - Status
+              - Timestamp
+            ProjectionType: INCLUDE
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
       Tags:
-      - Key: CreatedBy
-        Value: release-manager
+        - Key: CreatedBy
+          Value: release-machine
   CloudTrailBucket:
     Type: AWS::S3::Bucket
   CloudTrailForBucket:
     DependsOn:
-    - CloudTrailBucketPolicy
+      - CloudTrailBucketPolicy
     Type: AWS::CloudTrail::Trail
     Properties:
       IsLogging: true
       S3BucketName:
         Ref: CloudTrailBucket
       EventSelectors:
-      - DataResources:
-        - Type: AWS::S3::Object
-          Values:
-          - Fn::Join:
-            - ''
-            - - Fn::GetAtt:
-                - ReleaseBucket
-                - Arn
-              - /
-        IncludeManagementEvents: false
-        ReadWriteType: WriteOnly
+        - DataResources:
+            - Type: AWS::S3::Object
+              Values:
+                - Fn::Join:
+                    - ''
+                    - - Fn::GetAtt:
+                          - ReleaseBucket
+                          - Arn
+                      - /
+          IncludeManagementEvents: false
+          ReadWriteType: WriteOnly
   CloudTrailBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
@@ -274,23 +274,23 @@ Resources:
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
-        - Sid: AWSCloudTrailAclCheck
-          Effect: Allow
-          Principal:
-            Service: cloudtrail.amazonaws.com
-          Action: s3:GetBucketAcl
-          Resource:
-            Fn::Sub: arn:aws:s3:::${CloudTrailBucket}
-        - Sid: AWSCloudTrailWrite
-          Effect: Allow
-          Principal:
-            Service: cloudtrail.amazonaws.com
-          Action: s3:PutObject
-          Resource:
-            Fn::Sub: arn:aws:s3:::${CloudTrailBucket}/AWSLogs/${AWS::AccountId}/*
-          Condition:
-            StringEquals:
-              s3:x-amz-acl: bucket-owner-full-control
+          - Sid: AWSCloudTrailAclCheck
+            Effect: Allow
+            Principal:
+              Service: cloudtrail.amazonaws.com
+            Action: s3:GetBucketAcl
+            Resource:
+              Fn::Sub: arn:aws:s3:::${CloudTrailBucket}
+          - Sid: AWSCloudTrailWrite
+            Effect: Allow
+            Principal:
+              Service: cloudtrail.amazonaws.com
+            Action: s3:PutObject
+            Resource:
+              Fn::Sub: arn:aws:s3:::${CloudTrailBucket}/AWSLogs/${AWS::AccountId}/*
+            Condition:
+              StringEquals:
+                s3:x-amz-acl: bucket-owner-full-control
 Outputs:
   ReleaseStateMachineArn:
     Description: Release state machine ARN
@@ -301,8 +301,8 @@ Outputs:
       SAM Policy Templates
     Value:
       Fn::GetAtt:
-      - ReleaseStateMachineRole
-      - Arn
+        - ReleaseStateMachineRole
+        - Arn
   ReleaseBucketName:
     Description: Name of the bucket the release manifest should be dropped into
     Value:

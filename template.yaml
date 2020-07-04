@@ -9,7 +9,7 @@ Resources:
   ReleaseStateMachine:
     Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
     Properties:
-      DefinitionUri: statemachine/release_manager.asl.json
+      DefinitionUri: statemachine/release_machine.asl.json
       DefinitionSubstitutions:
         CheckManifestFunctionArn: !GetAtt CheckManifestFunction.Arn
         RunPipelineFunctionArn: !GetAtt RunPipelineFunction.Arn
@@ -53,7 +53,7 @@ Resources:
                   bucketName:
                     - !Ref ReleaseBucket
       Tags:
-        CreatedBy: 'release-manager'
+        CreatedBy: 'release-machine'
 
   ReleaseBucket:
     Type: AWS::S3::Bucket
@@ -62,7 +62,7 @@ Resources:
         Status: Enabled
       Tags:
         - Key: 'CreatedBy'
-          Value: 'release-manager'
+          Value: 'release-machine'
 
   CheckManifestFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
@@ -93,7 +93,7 @@ Resources:
                     - ':table/'
                     - Ref: ReleasesTable
       Tags:
-        CreatedBy: 'release-manager'
+        CreatedBy: 'release-machine'
 
   RunPipelineFunction:
     Type: AWS::Serverless::Function
@@ -133,7 +133,7 @@ Resources:
                     - ':table/'
                     - Ref: ExecutionsTable
       Tags:
-        CreatedBy: 'release-manager'
+        CreatedBy: 'release-machine'
 
   CheckPipelinesFunction:
     Type: AWS::Serverless::Function
@@ -183,7 +183,7 @@ Resources:
                       - Ref: ExecutionsTable
                       - '/*'
       Tags:
-        CreatedBy: 'release-manager'
+        CreatedBy: 'release-machine'
 
   ReleasesTable:
     Type: AWS::Serverless::SimpleTable # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
@@ -195,7 +195,7 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
       Tags:
-        CreatedBy: 'release-manager'
+        CreatedBy: 'release-machine'
 
   ExecutionsTable:
     Type: AWS::DynamoDB::Table
@@ -227,7 +227,7 @@ Resources:
         WriteCapacityUnits: 1
       Tags:
         - Key: 'CreatedBy'
-          Value: 'release-manager'
+          Value: 'release-machine'
 
   CloudTrailBucket:
     Type: AWS::S3::Bucket
